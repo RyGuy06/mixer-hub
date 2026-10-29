@@ -4,6 +4,14 @@ A four-channel desktop volume controller built around an Arduino Nano, with a 3D
 
 I originally made this for my own setup and use it every day. This repository is where I’m putting the software, firmware and DIY build files as I prepare the first public version.
 
+## Download
+
+Download **MixerHub.exe** from the [latest release](https://github.com/RyGuy06/mixer-hub/releases/latest).
+
+The Windows app is packaged as an executable, so you don’t need to install Python. Arduino firmware for DIY builds is also included in the release.
+
+Complete DIY assembly instructions are still being prepared.
+
 ## Features
 
 - Four physical sliders for controlling individual app volumes.
