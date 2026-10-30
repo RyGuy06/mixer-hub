@@ -48,9 +48,10 @@ The enclosure uses no screws or heat-set inserts. Assembly instructions will exp
 
 **The Windows app and Arduino firmware are available in the v1.0.0 release.** I have also downloaded and launched the Windows app on another PC.
 
+PCB manufacturing files are available: [MainV2Gerbers.zip](hardware/MainV2Gerbers.zip) and [SliderV2Gerbers.zip](hardware/SliderV2Gerbers.zip). Each mixer needs both boards.
+
 The following DIY files and instructions are still being prepared:
 
-- MainV2Gerbers.zip and SliderV2Gerbers.zip — not uploaded yet.
 - Complete assembly and PCB bridge-connection instructions.
 - Arduino library requirements and tested board/upload settings.
 - Printable files and a MakerWorld link.
