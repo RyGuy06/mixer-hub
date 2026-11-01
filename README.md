@@ -37,7 +37,7 @@ Building your own requires soldering. These are the component listings I used; s
 | WS2812B LED strip | 40 LEDs | [LED listing](https://www.aliexpress.com/item/1005007989207832.html) — DC5V, black PCB, 144 LEDs/m, IP30; four sections of 10 LEDs |
 | Arduino Nano | 1 | [Board listing](https://www.aliexpress.com/item/1005007842646963.html) — exact purchased variant still to be documented |
 | Custom PCBs | 1 main + 1 slider board | See [PCB ordering and bridge connections](hardware/gerbers/README.md) |
-| 3D-printed enclosure and controls | 1 set | Printable files and full parts inventory to be added |
+| 3D-printed enclosure and controls | 1 set | [Printable files and print profile on MakerWorld](https://makerworld.com/en/models/3527114-mixer-hub-4-channel-desktop-volume-controller#profileId-4032400) |
 | USB data cable | 1 | Match the connector on your Nano and check enclosure clearance |
 
 The slider dimensions, travel and pin spacing, switch model, and exact Nano variant still need documenting. B103 alone does not identify a mechanically compatible slider.
@@ -50,11 +50,12 @@ The enclosure uses no screws or heat-set inserts. Assembly instructions will exp
 
 PCB manufacturing files are available: [MainV2Gerbers.zip](hardware/MainV2Gerbers.zip) and [SliderV2Gerbers.zip](hardware/SliderV2Gerbers.zip). Each mixer needs both boards.
 
+Printable enclosure and control files are available on [MakerWorld](https://makerworld.com/en/models/3527114-mixer-hub-4-channel-desktop-volume-controller#profileId-4032400).
+
 The following DIY files and instructions are still being prepared:
 
 - Complete assembly and PCB bridge-connection instructions.
 - Arduino library requirements and tested board/upload settings.
-- Printable files and a MakerWorld link.
 
 The Python source and editable KiCad project files have not been uploaded.
 
