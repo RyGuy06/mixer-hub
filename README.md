@@ -12,9 +12,36 @@ Download **MixerHub.exe** from the [latest release](https://github.com/RyGuy06/m
 2. Connect your mixer using a USB cable that supports data transfer.
 3. Use the companion app to configure your channel assignments and button keybinds.
 
-The release also includes **sketch_sep22a.ino**, the Arduino firmware for DIY builds, and **build-manifest.json**, which records build details and the executable's checksum.
+The v1.0.0 release also includes the older standalone **sketch_sep22a.ino** firmware and **build-manifest.json**, which records build details and the executable's checksum. **For the new blue startup animation, use the current two-file firmware below instead of that legacy release attachment.** The existing Windows EXE remains compatible.
 
-Save the Arduino sketch in a folder named **sketch_sep22a** before opening it in the Arduino IDE. If your mixer already has the firmware installed, you don't need to upload it again.
+## Firmware update — blue startup
+
+The current firmware fills all four unmuted LED columns upward in blue, briefly holds, then fades into the current volume/audio display over about **1.6 seconds**. Sliders, buttons and serial processing continue during the sequence.
+
+**Installing this update requires reflashing the Arduino. Updating or running the Windows app alone will not replace the rainbow animation.**
+
+### Download and install
+
+1. On this repository's **main** page, choose **Code → Download ZIP** and extract the ZIP. Use the current `main` files, not the source archive attached to the older v1.0.0 tag.
+2. Inside the extracted folder, find `firmware/MixerHub/`. Keep these two files together in that exact folder:
+
+   ```text
+   MixerHub/
+     MixerHub.ino
+     startup_animation.h
+   ```
+
+3. Open **MixerHub.ino** in Arduino IDE. **startup_animation.h** is a helper header that the IDE compiles with the sketch; you do not install or flash it separately. If the IDE reports a missing header, check that both files are extracted into the same `MixerHub` folder with their exact names.
+4. Install **Arduino AVR Boards** in Boards Manager and **Adafruit NeoPixel** in Library Manager.
+5. Quit Mixer Hub using **Quit Mixer Hub** in the system tray or Settings, and close Serial Monitor so the USB port is free. Clicking X only hides the companion in the tray.
+6. Select **Arduino Nano**, the USB port, and the processor/bootloader matching your actual board. The sketch targets the classic **ATmega328P Nano**; the exact purchased board variant still needs confirmation.
+7. Choose **Verify**, then **Upload**. Power-cycle with the app closed to check the blue fill and fade, then reconnect the companion and check the four sliders, nine buttons and normal LEDs.
+
+The animation runs when the board powers up or resets. Opening USB serial may also reset a compatible Nano and replay it. **Blue startup is not a PC-connected or audio-ready indicator.** With the app absent, the animation still finishes on the board's normal volume display.
+
+The sketch compiled for the classic Nano with AVR core **1.8.8** and Adafruit NeoPixel **1.15.5**. Physical appearance, LED direction and USB reset behaviour still need checking on the actual mixer.
+
+See [firmware installation and pinout](firmware/README.md) and [startup behaviour and hardware checks](firmware/STARTUP.md).
 
 ## Features
 
@@ -55,7 +82,8 @@ Printable enclosure and control files are available on [MakerWorld](https://make
 The following DIY files and instructions are still being prepared:
 
 - Complete assembly and PCB bridge-connection instructions.
-- Arduino library requirements and tested board/upload settings.
+
+Arduino library requirements and the compiled board/upload settings are documented in the [firmware guide](firmware/README.md).
 
 The Python source and editable KiCad project files have not been uploaded.
 
