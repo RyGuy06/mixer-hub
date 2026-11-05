@@ -41,3 +41,13 @@ constexpr uint8_t blend(uint8_t normal, uint8_t blue, uint8_t weight) {
   return ((uint16_t)normal * weight + (uint16_t)blue * (255 - weight) + 127) / 255;
 }
 }
+
+// The companion renews this lease once per second while Windows is awake.
+// No heartbeat after boot or a lost host means dark LEDs after five seconds,
+// including when the motherboard keeps supplying USB power in sleep/shutdown.
+namespace MixerHostLighting {
+constexpr uint32_t TIMEOUT_MS = 5000;
+constexpr bool shouldBlank(uint32_t now, uint32_t lastHeartbeat, bool explicitlyOff) {
+  return explicitlyOff || (uint32_t)(now - lastHeartbeat) >= TIMEOUT_MS;
+}
+}

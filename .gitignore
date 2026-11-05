@@ -1,0 +1,59 @@
+# Python environments and caches, at any nesting level.
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+
+# Rebuilt by build.py. EXEs belong in GitHub Releases, not Git history.
+build/
+dist/
+*.spec
+*.exe
+*.dll
+*.pyd
+
+# Personal mixer settings, profiles, diagnostic captures and logs.
+mixer_config.json
+mixer_config.json.*
+previews/
+*.log
+*.log.*
+*.bak
+*.backup
+*.tmp
+*.swp
+*~
+
+# Old personal hardware prototype; app.py is the supported entry point.
+/Mixer.pyw
+
+# Local credentials and signing material.
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.pfx
+*.p12
+
+# Firmware compiler output; commit the .ino source instead.
+*.hex
+*.elf
+*.o
+*.a
+
+# Editor, OS and optional local website tooling state.
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+node_modules/
+.openai/

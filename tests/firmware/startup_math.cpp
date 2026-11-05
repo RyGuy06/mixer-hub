@@ -27,3 +27,11 @@ static_assert(blend(255, 36, 0) == 36 && blend(255, 36, 255) == 255, "Crossfade 
 static_assert(blend(255, 255, 127) == 255, "No 16-bit overflow at maximum byte values");
 static_assert(blend(0, 0, 127) == 0, "Muted/dark pixels remain dark");
 static_assert((uint32_t)((uint32_t)20 - (uint32_t)0xFFFFFFF0UL) == 36, "millis subtraction wraps safely");
+
+static_assert(!MixerHostLighting::shouldBlank(0, 0, false), "Boot grace allows startup");
+static_assert(!MixerHostLighting::shouldBlank(4999, 0, false), "Lease valid before deadline");
+static_assert(MixerHostLighting::shouldBlank(5000, 0, false), "No host means dark after five seconds");
+static_assert(!MixerHostLighting::shouldBlank(6000, 5000, false), "Heartbeat renews lease");
+static_assert(MixerHostLighting::shouldBlank(5001, 5000, true), "Explicit sleep blanks immediately");
+static_assert(!MixerHostLighting::shouldBlank(20, 0xFFFFFFF0UL, false), "Recent heartbeat survives timer wrap");
+static_assert(MixerHostLighting::shouldBlank(6000, 0xFFFFFFF0UL, false), "Lease expires across timer wrap");

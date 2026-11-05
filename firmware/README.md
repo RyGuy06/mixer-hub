@@ -6,8 +6,9 @@ The sketch now replaces the original rainbow boot animation with a timed blue
 bottom-to-top fill, brief hold and fade into the live display. **Reflash the Nano
 to install this change**; updating the Windows EXE alone cannot replace power-on
 firmware. Keep **`startup_animation.h`** beside `MixerHub.ino` when opening/uploading
-the sketch. Serial commands, slider calibration, buttons and normal LED rendering
-retain their existing behaviour.
+the sketch. Slider calibration, buttons and the connected volume/EQ display retain
+their existing behaviour. v1.0.1 adds heartbeat-controlled LED sleep; install the
+matching Windows app as described below.
 
 See **[Startup behaviour, flashing and hardware checks](STARTUP.md)** for the
 power-on/serial-reset distinction and the assessment of selectable animations.
@@ -30,11 +31,12 @@ header in that same **MixerHub** folder with its exact filename. Uploading the
 sketch installs both files' code on the Nano. If the IDE says the header is missing,
 check that you extracted the ZIP and did not download only the `.ino` file.
 
-The existing **v1.0.0 Release** still contains the older standalone
-`sketch_sep22a.ino`. To install the blue startup, use the current two-file sketch
-from **main**, not that legacy release attachment or its tagged source ZIP.
-The existing Windows EXE works with this firmware; it does not need reinstalling
-to change the board's boot animation.
+The [v1.0.1 release](https://github.com/RyGuy06/mixer-hub/releases/latest) includes
+`MixerHub-firmware-v1.0.1.zip` with these two files already together, plus install
+instructions. It supersedes the old standalone `sketch_sep22a.ino` in v1.0.0.
+**Update the Windows EXE to v1.0.1 too:** automatic LED sleep requires the new
+app's heartbeat. With an old EXE, the new firmware goes dark after five seconds.
+See the [LED sleep guide](POWER.md) for installation, wake behaviour and testing.
 
 ## Hardware and pinout
 
@@ -102,6 +104,8 @@ Companion → Nano:
 B,brightness\n          # brightness: 0–255
 C,channel,R,G,B\n       # channel: 0–3; RGB: 0–255
 E,ch1,ch2,ch3,ch4\n     # levels: 0–100; -1 restores the static volume display
+H,1\n                 # renew five-second host lighting lease
+H,0\n                 # explicit blackout until next heartbeat
 ```
 
 The companion enters audio-reactive mode after 1.5 seconds without fader movement.

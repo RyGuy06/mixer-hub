@@ -31,6 +31,8 @@ float currentEq[NUM_SLIDERS] = {0, 0, 0, 0}; // Tracks the smooth falling animat
 
 uint32_t startupStartedAt = 0;
 bool startupActive = true;
+uint32_t lastHostHeartbeat = 0;
+bool hostLightingOff = false;
 
 void setSliderPixel(int slider, int levelIndex, uint8_t r, uint8_t g, uint8_t b) {
   if (levelIndex < 0 || levelIndex >= LEDS_PER_SLIDER) return;
@@ -88,6 +90,7 @@ void setup() {
   strip.setBrightness(45);
   strip.show();
   startupStartedAt = millis(); // Power/reset animation, not a PC-ready signal.
+  lastHostHeartbeat = startupStartedAt;
 }
 
 void loop() {
@@ -95,7 +98,14 @@ void loop() {
     String inData = Serial.readStringUntil('\n');
     inData.trim();
     
-    if (inData.startsWith("B,")) {
+    if (inData == "H,1") {
+      lastHostHeartbeat = millis();
+      hostLightingOff = false;
+    }
+    else if (inData == "H,0") {
+      hostLightingOff = true;
+    }
+    else if (inData.startsWith("B,")) {
       strip.setBrightness(inData.substring(2).toInt());
     } 
     else if (inData.startsWith("C,")) {
@@ -140,6 +150,12 @@ void loop() {
 }
 
 void updateLEDs() {
+  if (MixerHostLighting::shouldBlank(millis(), lastHostHeartbeat, hostLightingOff)) {
+    startupActive = false;
+    strip.clear();
+    strip.show();
+    return;
+  }
   strip.clear();
   for (int s = 0; s < NUM_SLIDERS; s++) {
     if (isMuted[s]) continue;

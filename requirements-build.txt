@@ -1,0 +1,12 @@
+-r requirements.txt
+
+# Tested together on 64-bit Windows with Python 3.14.7.
+PyInstaller==6.22.3
+pyinstaller-hooks-contrib==2026.9
+altgraph==0.17.5
+packaging==26.3
+pefile==2024.8.26
+pywin32-ctypes==0.2.3
+setuptools==84.2.1
+darkdetect==0.8.0
+six==1.17.0

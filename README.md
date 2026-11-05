@@ -12,7 +12,13 @@ Download **MixerHub.exe** from the [latest release](https://github.com/RyGuy06/m
 2. Connect your mixer using a USB cable that supports data transfer.
 3. Use the companion app to configure your channel assignments and button keybinds.
 
-The v1.0.0 release also includes the older standalone **sketch_sep22a.ino** firmware and **build-manifest.json**, which records build details and the executable's checksum. **For the new blue startup animation, use the current two-file firmware below instead of that legacy release attachment.** The existing Windows EXE remains compatible.
+The **v1.0.1 release** includes the updated Windows app, a firmware ZIP with both required sketch files, and a checksum/build manifest. **Update both the EXE and Nano firmware for automatic LED sleep.** Your profiles, colours and saved brightness are retained.
+
+## LED sleep and blue startup
+
+The mixer now goes dark when Windows sleeps, hibernates or shuts down, even if the USB port stays powered. The app sends a small heartbeat while connected, including in the system tray. After five seconds without one, firmware blanks the LEDs. The app also requests immediate blackout on power notifications and retries the previous connection on wake. Deliberate Disconnect is respected.
+
+With no companion running, power-on still plays the blue sequence, then the LEDs go dark after a five-second startup grace period. The older EXE does not send heartbeats, so install the matching v1.0.1 app. See the [LED sleep guide](firmware/POWER.md) for full behaviour and checks.
 
 ## Firmware update — blue startup
 
@@ -22,8 +28,8 @@ The current firmware fills all four unmuted LED columns upward in blue, briefly 
 
 ### Download and install
 
-1. On this repository's **main** page, choose **Code → Download ZIP** and extract the ZIP. Use the current `main` files, not the source archive attached to the older v1.0.0 tag.
-2. Inside the extracted folder, find `firmware/MixerHub/`. Keep these two files together in that exact folder:
+1. Download **MixerHub-firmware-v1.0.1.zip** from the [latest release](https://github.com/RyGuy06/mixer-hub/releases/latest) and extract it. Alternatively, choose **Code → Download ZIP** on the repository's main page and extract the repository.
+2. In the firmware ZIP, find `MixerHub/` (or `firmware/MixerHub/` in the repository ZIP). Keep these two files together in that exact folder:
 
    ```text
    MixerHub/
@@ -37,9 +43,9 @@ The current firmware fills all four unmuted LED columns upward in blue, briefly 
 6. Select **Arduino Nano**, the USB port, and the processor/bootloader matching your actual board. The sketch targets the classic **ATmega328P Nano**; the exact purchased board variant still needs confirmation.
 7. Choose **Verify**, then **Upload**. Power-cycle with the app closed to check the blue fill and fade, then reconnect the companion and check the four sliders, nine buttons and normal LEDs.
 
-The animation runs when the board powers up or resets. Opening USB serial may also reset a compatible Nano and replay it. **Blue startup is not a PC-connected or audio-ready indicator.** With the app absent, the animation still finishes on the board's normal volume display.
+The animation runs when the board powers up or resets. Opening USB serial may also reset a compatible Nano and replay it. **Blue startup is not a PC-connected or audio-ready indicator.** With the app absent, the animation briefly finishes on the board's normal volume display, then the LEDs go dark at the five-second startup grace limit.
 
-The sketch compiled for the classic Nano with AVR core **1.8.8** and Adafruit NeoPixel **1.15.5**. Physical appearance, LED direction and USB reset behaviour still need checking on the actual mixer.
+The sketch compiled for the classic Nano with AVR core **1.8.8** and Adafruit NeoPixel **1.15.5**. The builder has tested this update successfully on the physical mixer. Check LED direction, USB reset and sleep/wake behaviour on your own setup.
 
 See [firmware installation and pinout](firmware/README.md) and [startup behaviour and hardware checks](firmware/STARTUP.md).
 
@@ -48,10 +54,11 @@ See [firmware installation and pinout](firmware/README.md) and [startup behaviou
 - Four physical sliders for controlling individual app volumes.
 - A dedicated mute button beneath each slider.
 - Four strips of 10 addressable RGB LEDs.
-- LEDs show the volume setting when a slider moves, then switch to that channel's audio level after about three seconds of inactivity.
+- LEDs show the volume setting when a slider moves, then switch to that channel's audio level after 1.5 seconds of inactivity.
 - Previous track, play/pause and next track buttons.
 - Two additional buttons intended for Discord mute and deafen, with configurable keybinds.
 - App assignments and priorities configured through the companion software.
+- Automatic LED sleep, saved brightness restore and wake reconnection.
 
 ## DIY hardware
 
@@ -73,7 +80,7 @@ The enclosure uses no screws or heat-set inserts. Assembly instructions will exp
 
 ## Current status
 
-**The Windows app and Arduino firmware are available in the v1.0.0 release.** I have also downloaded and launched the Windows app on another PC.
+**The matching Windows app and two-file Arduino firmware are available in the v1.0.1 release.** I have also downloaded and launched the Windows app on another PC.
 
 PCB manufacturing files are available: [MainV2Gerbers.zip](hardware/MainV2Gerbers.zip) and [SliderV2Gerbers.zip](hardware/SliderV2Gerbers.zip). Each mixer needs both boards.
 
@@ -85,7 +92,17 @@ The following DIY files and instructions are still being prepared:
 
 Arduino library requirements and the compiled board/upload settings are documented in the [firmware guide](firmware/README.md).
 
-The Python source and editable KiCad project files have not been uploaded.
+The Windows companion source and repeatable build script are included. On Windows x64 with Python 3.14.7:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-build.txt
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe build.py
+.\.venv\Scripts\python.exe tools/check_release.py
+```
+
+Build outputs go in `dist/`; personal settings and build output are excluded from Git. GitHub Actions runs the tests and builds/validates the EXE and firmware ZIP before publishing a versioned release. See [v1.0.1 release notes](docs/releases/v1.0.1.md). Editable KiCad project files have not been uploaded.
 
 ## Feedback
 
