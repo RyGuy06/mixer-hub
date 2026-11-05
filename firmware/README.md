@@ -1,115 +1,48 @@
-# Mixer Hub firmware
+# Flash the Arduino
 
-Open **[MixerHub/MixerHub.ino](MixerHub/MixerHub.ino)** in Arduino IDE. The sketch
-and its enclosing directory share a name so the IDE opens it without moving files.
-The sketch now replaces the original rainbow boot animation with a timed blue
-bottom-to-top fill, brief hold and fade into the live display. **Reflash the Nano
-to install this change**; updating the Windows EXE alone cannot replace power-on
-firmware. Keep **`startup_animation.h`** beside `MixerHub.ino` when opening/uploading
-the sketch. Slider calibration, buttons and the connected volume/EQ display retain
-their existing behaviour. v1.0.1 adds heartbeat-controlled LED sleep; install the
-matching Windows app as described below.
-
-See **[Startup behaviour, flashing and hardware checks](STARTUP.md)** for the
-power-on/serial-reset distinction and the assessment of selectable animations.
+Use this guide for a DIY build or firmware update. An already updated mixer does not need flashing each time you run the app. Installing the EXE does not update the Arduino.
 
 ## Download both files together
 
-On the repository's **main** page, choose **Code → Download ZIP**, then extract
-the ZIP. Open the sketch inside the extracted folder, keeping this structure:
+Download **[MixerHub-firmware-v1.0.1.zip](https://github.com/RyGuy06/mixer-hub/releases/download/v1.0.1/MixerHub-firmware-v1.0.1.zip)** and extract it. Keep this folder intact:
 
 ```text
-firmware/
-  MixerHub/
-    MixerHub.ino
-    startup_animation.h
+MixerHub/
+  MixerHub.ino
+  startup_animation.h
 ```
 
-`startup_animation.h` is a helper header compiled automatically with the sketch.
-It is not a separate app or a separate upload. Open **MixerHub.ino**, and keep the
-header in that same **MixerHub** folder with its exact filename. Uploading the
-sketch installs both files' code on the Nano. If the IDE says the header is missing,
-check that you extracted the ZIP and did not download only the `.ino` file.
+Open **MixerHub.ino**, not the header. Arduino IDE compiles `startup_animation.h` with the sketch; it is not a separate upload. Both files must stay in the same `MixerHub` folder.
 
-The [v1.0.1 release](https://github.com/RyGuy06/mixer-hub/releases/latest) includes
-`MixerHub-firmware-v1.0.1.zip` with these two files already together, plus install
-instructions. It supersedes the old standalone `sketch_sep22a.ino` in v1.0.0.
-**Update the Windows EXE to v1.0.1 too:** automatic LED sleep requires the new
-app's heartbeat. With an old EXE, the new firmware goes dark after five seconds.
-See the [LED sleep guide](POWER.md) for installation, wake behaviour and testing.
-
-## Hardware and pinout
-
-Target: **classic Arduino Nano, ATmega328P, 5 V**. Library: **Adafruit NeoPixel**
-(install using Arduino IDE's Library Manager).
-
-This is the sketch's target, not confirmation of the exact purchased board variant
-or USB interface chip. See the [project README](../README.md) for component
-selections and build status. The DIY build requires soldering; this firmware guide
-does not replace the PCB assembly and component-retention instructions.
-
-| Function | Pins / arrangement |
-| --- | --- |
-| Four potentiometer wipers | `A0`, `A1`, `A2`, `A3` |
-| Four local channel-mute switches | `D2`, `D3`, `D4`, `D5` |
-| Previous / play-pause / next | `D7`, `D8`, `D9` |
-| Discord deafen / mute | `D10`, `D11` |
-| WS2812B data | `D12` |
-| LEDs | 40 total: four consecutive groups of ten, `NEO_GRB + NEO_KHZ800` |
-
-Connect each switch between its digital pin and GND. The firmware configures
-`INPUT_PULLUP`, so released is `1` and pressed is `0`. Potentiometer outer terminals
-connect to 5 V and GND; the middle wiper connects to its analog pin. The sketch
-inverts the analog reading and maps its calibrated range (`8–1015`) to `0–1023`.
-
-LED channel groups follow slider order. Groups 2 and 4 reverse their pixel order
-for serpentine wiring. Use a power arrangement suitable for your LEDs and enclosure,
-with a common GND; this pin table is not a complete power-distribution schematic.
-The [Adafruit NeoPixel power guide](https://learn.adafruit.com/adafruit-neopixel-uberguide/powering-neopixels)
-covers supply sizing and wiring considerations.
+The same files are available in [MixerHub/](MixerHub/) in this repository. Use the current pair, not the old standalone `sketch_sep22a.ino` from v1.0.0.
 
 ## Flash
 
-1. Install Arduino IDE, **Arduino AVR Boards**, and **Adafruit NeoPixel**.
-   The updated sketch was compiled with AVR core **1.8.8** and NeoPixel **1.15.5**.
-2. Open `MixerHub/MixerHub.ino` and choose **Arduino Nano** under Boards.
-3. Choose the USB port and the matching **Processor**. Some older boards use
-   **ATmega328P (Old Bootloader)**; use the option appropriate to your Nano.
-4. Keep `startup_animation.h` in the sketch directory. Quit the desktop app
-   through its tray **Quit** menu and close Serial Monitor, then **Verify** and
-   **Upload**. Closing the app window with X only hides it and can leave the port open.
-5. Reopen Mixer Hub and connect to the device. No firmware upload is required on
-   subsequent launches unless you are updating the sketch.
+1. Install [Arduino IDE](https://www.arduino.cc/en/software/). In Boards Manager install **Arduino AVR Boards**; in Library Manager install **Adafruit NeoPixel**.
+2. Quit the Windows app using **Quit Mixer Hub** in its tray menu or Settings, and close Serial Monitor. Clicking X only hides the app and can leave the USB port busy.
+3. Open the extracted **MixerHub/MixerHub.ino**.
+4. Select **Arduino Nano**, the correct USB port, and the processor/bootloader matching your board. The sketch targets the classic **5 V ATmega328P Nano**. Some boards need **ATmega328P (Old Bootloader)**.
+5. Click **Verify**, then **Upload**.
+6. Run the matching [v1.0.1 Windows app](https://github.com/RyGuy06/mixer-hub/releases/download/v1.0.1/MixerHub.exe), connect, and check all four sliders, mute buttons, media buttons and LEDs.
 
-Arduino's [upload documentation](https://docs.arduino.cc/software/ide-v2/tutorials/getting-started/ide-v2-uploading-a-sketch/)
-explains board and port selection.
+**For automatic LED sleep, update both the EXE and firmware to v1.0.1.** An older EXE does not keep these LEDs awake. Existing app profiles and saved brightness are retained when replacing the EXE.
+
+After flashing, expect a brief blue startup. With no app connected, the LEDs go dark after five seconds. The animation indicates a board reset, not a confirmed PC connection.
+
+For a missing-header error, check that you extracted the ZIP and kept both files together. For a busy port, missing device or upload problem, see **[Troubleshooting](../docs/TROUBLESHOOTING.md)**.
+
+## Hardware and pinout
+
+See the [pinout and wiring reference](REFERENCE.md#hardware-and-pinout) and [parts list](../hardware/README.md). The exact purchased Nano variant and USB interface chip still need documenting.
 
 ## Serial protocol
 
-USB serial runs at **9600 baud**, with newline-terminated ASCII messages.
+The [technical reference](REFERENCE.md#serial-protocol) covers the unchanged input frame and LED commands, including the host-lighting heartbeat.
 
-Nano → companion:
+## More detail
 
-```text
-slider1|slider2|slider3|slider4|previous|playPause|next|deafen|discordMute\n
-```
+- [LED sleep and wake behaviour](POWER.md)
+- [Blue startup timing and hardware checks](STARTUP.md)
+- [Arduino's board and upload guide](https://docs.arduino.cc/software/ide-v2/tutorials/getting-started/ide-v2-uploading-a-sketch/)
 
-Slider values are `0–1023`; the four local mute switches report their channel as
-zero while muted. The five transmitted button levels are active LOW. Local mute
-switches are not extra fields in this nine-field frame.
-
-Companion → Nano:
-
-```text
-B,brightness\n          # brightness: 0–255
-C,channel,R,G,B\n       # channel: 0–3; RGB: 0–255
-E,ch1,ch2,ch3,ch4\n     # levels: 0–100; -1 restores the static volume display
-H,1\n                 # renew five-second host lighting lease
-H,0\n                 # explicit blackout until next heartbeat
-```
-
-The companion enters audio-reactive mode after 1.5 seconds without fader movement.
-The Nano handles the LED decay and sub-pixel fade. In this sketch, the falling
-level decreases by `0.45` LED per update; the app's display decay is approximate.
-
-[Back to the project](../README.md)
+[Back to downloads](../README.md)

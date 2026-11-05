@@ -65,22 +65,8 @@ host lighting lease is active; explicit blackout or heartbeat timeout blanks it.
 
 ## Flash this version
 
-1. Quit Mixer Hub using **Quit Mixer Hub** in the tray menu or Settings, and
-   close Arduino Serial Monitor so the USB port is free.
-2. Open **`firmware/MixerHub/MixerHub.ino`** from this repository in Arduino IDE.
-   Keep **`startup_animation.h`** alongside it; both files are required.
-3. Select **Arduino Nano**, the correct USB port, and the processor/bootloader
-   matching your actual board. The code targets the classic ATmega328P Nano.
-4. Ensure **Arduino AVR Boards** and **Adafruit NeoPixel** are installed, then
-   choose **Verify** and **Upload**. The connected board has not been flashed
-   automatically as part of this change.
-5. Power-cycle the device to check true power-on behaviour, then reopen the app
-   and connect to check the separate serial-open/reset case.
-
-Arduino's [upload instructions](https://docs.arduino.cc/software/ide-v2/tutorials/getting-started/ide-v2-uploading-a-sketch/)
-cover board and port selection. The blue sequence itself needs no animation
-command. The current firmware also includes automatic LED sleep, so install the
-matching **v1.0.1 EXE** to supply its lighting heartbeat.
+Follow the **[Arduino flashing guide](README.md)** for the firmware ZIP, both required
+files, board selection and upload steps. Use the matching v1.0.1 app for LED sleep.
 
 ## Hardware checks to perform after flashing
 
@@ -144,7 +130,7 @@ That larger feature would need:
 
 No animation selector, animation command, acknowledgement, animation preference
 or EEPROM write is implemented. The separate LED sleep change adds the `H,1`
-and `H,0` host-lighting commands documented in [POWER.md](POWER.md).
+and `H,0` host-lighting commands documented in the [serial protocol reference](REFERENCE.md#serial-protocol).
 
 ## Verification performed
 
