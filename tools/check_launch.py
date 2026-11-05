@@ -7,12 +7,15 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import time
 
 import psutil
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from app import DEFAULT_CONFIG
 
 
 def main():
@@ -21,7 +24,7 @@ def main():
         settings = directory / "roaming/MixerHub"
         settings.mkdir(parents=True)
         (settings / "mixer_config.json").write_text(
-            json.dumps({"auto_connect": False}), encoding="utf-8")
+            json.dumps(dict(DEFAULT_CONFIG, auto_connect=False)), encoding="utf-8")
         environment = dict(os.environ, APPDATA=str(directory / "roaming"),
                            LOCALAPPDATA=str(directory / "local"))
         process = subprocess.Popen([str(ROOT / "dist/MixerHub.exe"), "--background"],
@@ -35,6 +38,8 @@ def main():
                 path = settings / "MixerHub.log"
                 if path.exists():
                     log = path.read_text(encoding="utf-8")
+                    assert "Mixer Hub startup failed" not in log, log
+                    assert "Unhandled exception" not in log, log
                 if "Dashboard ready; product renders: side, top" in log:
                     time.sleep(2)
                     assert process.poll() is None
