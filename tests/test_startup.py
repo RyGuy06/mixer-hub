@@ -10,7 +10,8 @@ import windows_startup as startup
 class StartupTests(unittest.TestCase):
     def test_development_command_uses_windowed_python_and_quotes_spaces(self):
         with tempfile.TemporaryDirectory(prefix="Mixer Hub ") as directory:
-            root = Path(directory)
+            # Windows build runners may expose TEMP through an 8.3 alias.
+            root = Path(directory).resolve()
             python = root / "python.exe"
             (root / "pythonw.exe").touch()
             script = root / "app.py"

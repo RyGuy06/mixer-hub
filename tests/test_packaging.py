@@ -57,7 +57,8 @@ class ProductionPathsTests(unittest.TestCase):
 
     def test_legacy_search_includes_old_packaged_and_development_config(self):
         with tempfile.TemporaryDirectory() as directory:
-            root = Path(directory)
+            # Compare the canonical paths produced by executable.resolve().
+            root = Path(directory).resolve()
             (root / "app.py").touch()
             with patch.dict(os.environ, {"LOCALAPPDATA": str(root / "local")}), \
                  patch.object(sys, "executable", str(root / "dist/MixerHub.exe")):
