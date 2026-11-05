@@ -35,7 +35,10 @@ def main():
     with zipfile.ZipFile(firmware) as archive:
         assert set(archive.namelist()) == {"MixerHub/MixerHub.ino", "MixerHub/startup_animation.h", "INSTALL.txt"}
         for name in ("MixerHub.ino", "startup_animation.h"):
-            assert archive.read(f"MixerHub/{name}") == (ROOT / "firmware/MixerHub" / name).read_bytes()
+            # A Windows clone may use CRLF while the local checkout uses LF.
+            # The archive's exact bytes are already protected by its checksum.
+            bundled = archive.read(f"MixerHub/{name}").decode("utf-8").replace("\r\n", "\n")
+            assert bundled == (ROOT / "firmware/MixerHub" / name).read_text(encoding="utf-8")
     print(f"PASS: release {VERSION}, EXE and firmware checksums, Windows x64 GUI subsystem, bundled resources/power code, and personal config excluded.")
 
 
