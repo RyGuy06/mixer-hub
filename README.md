@@ -9,6 +9,12 @@ Windows 10/11 · 64-bit · No Python installation needed. [Release notes](https:
 <a id="about-v1"></a>
 Four physical sliders for your games, music, browser and voice chat, with RGB level meters and media/Discord buttons.
 
+## V1.1 hardware update — 10 November 2026
+
+I'm continuing work on V1.1 of the physical Mixer Hub. The update is planned to include a refreshed enclosure design, improved fit and tighter tolerances, and a more robust connection between the two PCBs.
+
+The hardware release has been delayed while I resolve fit and connection issues and test the changes. Exams are next week, so progress may be slower for a little while. Development is still ongoing, and I'll share an update once the revised hardware has been tested. There is no confirmed release date yet.
+
 <a id="download-and-setup"></a>
 ## Quick setup
 
