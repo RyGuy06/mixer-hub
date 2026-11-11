@@ -20,7 +20,7 @@ and USB interface, which remain to be confirmed. See the official
 [Nano auto-reset description](https://store.arduino.cc/products/arduino-nano).
 
 The current companion opens serial at 9600 baud, waits 1.5 seconds, then sends
-the existing `B,...`, `C,...` and `E,...` settings. v1.0.1 also sends `H,1` once
+the existing `B,...`, `C,...` and `E,...` settings. v1.0.1 and later send `H,1` once
 per second to keep the LEDs awake. It sends no animation command.
 There is no startup acknowledgement or PC-ready handshake in this protocol.
 **The blue sequence means the board is booting/resetting; it does not confirm
@@ -65,8 +65,9 @@ host lighting lease is active; explicit blackout or heartbeat timeout blanks it.
 
 ## Flash this version
 
-Follow the **[Arduino flashing guide](README.md)** for the firmware ZIP, both required
-files, board selection and upload steps. Use the matching v1.0.1 app for LED sleep.
+Follow the **[Arduino flashing guide](README.md)** for the complete firmware ZIP,
+required sketch and headers, board selection and upload steps. Use the current
+Windows app for LED sleep and slider calibration.
 
 ## Hardware checks to perform after flashing
 
@@ -161,4 +162,5 @@ The Arduino core emits existing unused-parameter warnings in `new.cpp`; the sket
 and assertion compile completed successfully. Compilation did not upload anything
 to a physical board. The builder subsequently reported successful physical
 testing. Other Nano variants and motherboard sleep behaviour still need checking
-on the actual setup; use the matching app and firmware from v1.0.1.
+on the actual setup; use the current app and complete firmware ZIP linked in the
+[flashing guide](README.md).
