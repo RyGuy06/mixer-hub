@@ -29,9 +29,9 @@ Closing the window with **X** keeps Mixer Hub running in the system tray. Use **
 <a id="download-and-install"></a>
 ## Arduino firmware
 
-Building a mixer or updating older firmware? Follow the **[Arduino flashing guide](firmware/README.md)**. It explains how to upload `MixerHub.ino` with `startup_animation.h` beside it.
+Building a mixer or updating older firmware? Follow the **[Arduino flashing guide](firmware/README.md)**. Keep `MixerHub.ino`, `startup_animation.h` and `slider_calibration.h` together when flashing.
 
-Automatic LED sleep requires the matching v1.0.1 app and firmware. If your board already has that firmware, you do not need to flash it again.
+**New in software v1.1.0:** [Calibrate slider endpoints and dead zones](docs/CALIBRATION.md), search your apps and edit Priority lists inside the main window. Calibration needs the v1.1.0 firmware once; existing v1.0.1 firmware still supports ordinary mixing and LED sleep.
 
 <a id="diy-hardware"></a>
 ## Make your own

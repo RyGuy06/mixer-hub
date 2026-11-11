@@ -1,5 +1,6 @@
 #include <Adafruit_NeoPixel.h>
 #include "startup_animation.h"
+#include "slider_calibration.h"
 
 #define LED_PIN         12
 #define NUM_SLIDERS     4
@@ -12,6 +13,9 @@ uint8_t SLIDER_COLORS[NUM_SLIDERS][3] = {
 
 const int RAW_MIN = 8;
 const int RAW_MAX = 1015;
+uint16_t sliderMinimum[NUM_SLIDERS] = {RAW_MIN, RAW_MIN, RAW_MIN, RAW_MIN};
+uint16_t sliderMaximum[NUM_SLIDERS] = {RAW_MAX, RAW_MAX, RAW_MAX, RAW_MAX};
+bool calibrationMode = false;
 
 Adafruit_NeoPixel strip(TOTAL_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800);
 
@@ -104,6 +108,23 @@ void loop() {
     }
     else if (inData == "H,0") {
       hostLightingOff = true;
+      calibrationMode = false;
+    }
+    else if (inData == "V") {
+      Serial.println("V,CAL,1");
+    }
+    else if (inData == "K,START") {
+      calibrationMode = true;
+    }
+    else if (inData == "K,STOP") {
+      calibrationMode = false;
+    }
+    else if (inData.startsWith("K,")) {
+      uint16_t channel, low, high;
+      if (MixerCalibration::parse(inData.c_str(), channel, low, high)) {
+        sliderMinimum[channel] = low;
+        sliderMaximum[channel] = high;
+      }
     }
     else if (inData.startsWith("B,")) {
       strip.setBrightness(inData.substring(2).toInt());
@@ -136,14 +157,25 @@ void loop() {
     lastMuteButtonStates[i] = btnState;
   }
 
-  for (int i = 0; i < NUM_SLIDERS; i++) {
-    int cleanVal = constrain(map(1023 - readSmoothed(sliderPins[i]), RAW_MIN, RAW_MAX, 0, 1023), 0, 1023);
-    Serial.print(isMuted[i] ? 0 : cleanVal); Serial.print("|");
+  if (MixerHostLighting::shouldBlank(millis(), lastHostHeartbeat, hostLightingOff)) calibrationMode = false;
+  if (calibrationMode) {
+    // Replace the normal frame: sending both at 9600 baud would overload USB serial.
+    Serial.print("R,");
+    uint8_t muted = 0;
+    for (int i = 0; i < NUM_SLIDERS; i++) {
+      Serial.print(1023 - readSmoothed(sliderPins[i])); Serial.print(",");
+      if (isMuted[i]) muted |= (1 << i);
+    }
+    Serial.println(muted);
+  } else {
+    for (int i = 0; i < NUM_SLIDERS; i++) {
+      int cleanVal = MixerCalibration::position(1023 - readSmoothed(sliderPins[i]), sliderMinimum[i], sliderMaximum[i]);
+      Serial.print(isMuted[i] ? 0 : cleanVal); Serial.print("|");
+    }
+    Serial.print(digitalRead(prevPin)); Serial.print("|"); Serial.print(digitalRead(playPausePin)); Serial.print("|");
+    Serial.print(digitalRead(nextPin)); Serial.print("|"); Serial.print(digitalRead(deafenPin)); Serial.print("|");
+    Serial.println(digitalRead(discordMutePin));
   }
-
-  Serial.print(digitalRead(prevPin)); Serial.print("|"); Serial.print(digitalRead(playPausePin)); Serial.print("|");
-  Serial.print(digitalRead(nextPin)); Serial.print("|"); Serial.print(digitalRead(deafenPin)); Serial.print("|");
-  Serial.println(digitalRead(discordMutePin));
 
   updateLEDs();
   delay(30);
@@ -191,7 +223,7 @@ void updateLEDs() {
     // --- STANDARD VOLUME RENDERER ---
     else {
       currentEq[s] = 0.0f; // Reset physics
-      int cleanVal = constrain(map(1023 - readSmoothed(sliderPins[s]), RAW_MIN, RAW_MAX, 0, 1023), 0, 1023);
+      int cleanVal = MixerCalibration::position(1023 - readSmoothed(sliderPins[s]), sliderMinimum[s], sliderMaximum[s]);
       if (cleanVal <= 0) continue;
       
       float exactLevel = (cleanVal / 1023.0f) * (float)LEDS_PER_SLIDER;

@@ -31,7 +31,7 @@ To replace the EXE or free the port for flashing, choose **Quit Mixer Hub** from
 
 ## Arduino upload fails
 
-- **Missing startup_animation.h:** extract the firmware ZIP and keep the header beside `MixerHub.ino` inside `MixerHub/`. Do not download only the sketch or open files inside the ZIP.
+- **Missing startup_animation.h or slider_calibration.h:** extract the complete firmware ZIP and keep both headers beside `MixerHub.ino` inside `MixerHub/`. Do not download only the sketch or open files inside the ZIP.
 - **Port busy:** quit Mixer Hub from its tray menu and close Serial Monitor.
 - **Board/processor error:** choose the classic Nano, your USB port and the bootloader that matches your board. Some clones need **ATmega328P (Old Bootloader)**.
 
@@ -39,11 +39,19 @@ Follow the single **[flashing guide](../firmware/README.md)** for the complete s
 
 ## LEDs go dark, stay on, or do not return after wake
 
-The current firmware intentionally goes dark within five seconds without the connected app, even when USB power remains on. For LED sleep to work reliably, use **both the v1.0.1 EXE and matching firmware**.
+The current firmware intentionally goes dark within five seconds without the connected app, even when USB power remains on. For LED sleep to work reliably, use the **v1.0.1 or later app and heartbeat-capable firmware**.
 
 A connection that was active before sleep is retried for up to 30 seconds after wake. If USB takes longer, click Connect; Auto-connect provides ongoing retries when enabled. A deliberate Disconnect is respected.
 
 See **[LED sleep behaviour and checks](../firmware/POWER.md)** for details, and **[startup behaviour](../firmware/STARTUP.md)** if the question concerns the blue animation or a USB reset.
+
+## A slider does not reach 0% or 100%
+
+Use [Slider calibration](CALIBRATION.md) in Device settings. Update both the app and firmware to v1.1.0 to enable it. Unmute all four channels and hold the sliders still when recording. Move the sliders back to normal listening levels before saving.
+
+## Resizing or changing monitors pauses briefly
+
+The app holds its content layout during a border drag, then redraws at the final size. Different monitor scaling can still cause a noticeable pause after dropping the window. If reporting a problem, include each monitor's resolution, scaling percentage and graphics/dock connection.
 
 ## Settings, logs and support
 
