@@ -4,7 +4,7 @@ Use this guide for a DIY build or firmware update. An already updated mixer does
 
 ## Download the complete firmware folder
 
-Download **[MixerHub-firmware-v1.1.0.zip](https://github.com/RyGuy06/mixer-hub/releases/download/v1.1.0/MixerHub-firmware-v1.1.0.zip)** and extract it. Keep this folder intact:
+Download **[MixerHub-firmware-v1.1.0.zip](https://github.com/RyGuy06/mixer-hub/releases/download/V1.1.0/MixerHub-firmware-v1.1.0.zip)** and extract it. Keep this folder intact:
 
 ```text
 MixerHub/
@@ -24,7 +24,7 @@ The same files are available in [MixerHub/](MixerHub/) in this repository. Use t
 3. Open the extracted **MixerHub/MixerHub.ino**.
 4. Select **Arduino Nano**, the correct USB port, and the processor/bootloader matching your board. The sketch targets the classic **5 V ATmega328P Nano**. Some boards need **ATmega328P (Old Bootloader)**.
 5. Click **Verify**, then **Upload**.
-6. Run the matching [v1.1.0 Windows app](https://github.com/RyGuy06/mixer-hub/releases/download/v1.1.0/MixerHub.exe), connect, and check all four sliders, mute buttons, media buttons and LEDs.
+6. Run the matching [v1.1.0 Windows app](https://github.com/RyGuy06/mixer-hub/releases/download/V1.1.0/MixerHub.exe), connect, and check all four sliders, mute buttons, media buttons and LEDs.
 
 **Slider calibration needs the v1.1.0 app and firmware.** After connecting, follow the [calibration guide](../docs/CALIBRATION.md). If your board already has this calibration firmware, there is no need to flash again.
 

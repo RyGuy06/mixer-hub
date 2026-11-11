@@ -9,6 +9,10 @@ Windows 10/11 · 64-bit · No Python installation needed. [Release notes](https:
 <a id="about-v1"></a>
 Four physical sliders for your games, music, browser and voice chat, with RGB level meters and media/Discord buttons.
 
+## Software v1.1.0
+
+[Calibrate slider endpoints and dead zones](docs/CALIBRATION.md), search running and remembered apps, and edit Priority lists inside the main window. Existing settings and profiles are retained. [See what changed](https://github.com/RyGuy06/mixer-hub/releases/tag/V1.1.0).
+
 ## V1.1 hardware update — 10 November 2026
 
 I'm continuing work on V1.1 of the physical Mixer Hub. The update is planned to include a refreshed enclosure design, improved fit and tighter tolerances, and a more robust connection between the two PCBs.
@@ -31,7 +35,7 @@ Closing the window with **X** keeps Mixer Hub running in the system tray. Use **
 
 Building a mixer or updating older firmware? Follow the **[Arduino flashing guide](firmware/README.md)**. Keep `MixerHub.ino`, `startup_animation.h` and `slider_calibration.h` together when flashing.
 
-**New in software v1.1.0:** [Calibrate slider endpoints and dead zones](docs/CALIBRATION.md), search your apps and edit Priority lists inside the main window. Calibration needs the v1.1.0 firmware once; existing v1.0.1 firmware still supports ordinary mixing and LED sleep.
+Slider calibration needs the v1.1.0 firmware once. Existing v1.0.1 firmware still supports ordinary mixing and LED sleep; if you have already flashed calibration firmware, you do not need to flash it again.
 
 <a id="diy-hardware"></a>
 ## Make your own
