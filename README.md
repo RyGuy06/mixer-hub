@@ -41,7 +41,8 @@ Slider calibration needs the v1.1.0 firmware once. Existing v1.0.1 firmware stil
 ## Make your own
 
 - [Enclosure and printed parts on MakerWorld](https://makerworld.com/en/models/3527114-mixer-hub-4-channel-desktop-volume-controller#profileId-4032400)
-- PCB files: [Main board](hardware/MainV2Gerbers.zip) · [Slider board](hardware/SliderV2Gerbers.zip) — one of each is needed.
+- **V1.1 PCB files (recommended):** [Button board](hardware/MixerHub-V1.1-Button-Gerbers.zip) · [Slider board](hardware/MixerHub-V1.1-Slider-Gerbers.zip). Order one of each. V1.1 replaces the fragile edge-pad solder bridges with plated through-hole header connections.
+- [PCB assembly notes and V1 archive](hardware/gerbers/README.md). **Do not order V1 for new builds.** The edge pads can lift and break the connection between the boards.
 - [Parts list and PCB ordering notes](hardware/README.md)
 
 <a id="feedback"></a>

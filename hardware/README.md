@@ -12,7 +12,7 @@ These are the component listings used by the builder, with the selected options.
 | Brown mechanical keyboard switches | 9 | [Switch listing](https://www.aliexpress.com/item/1005010773758011.html) — “Tea switch 30pcs”; exact manufacturer/model unknown |
 | WS2812B LEDs | 40 | [LED listing](https://www.aliexpress.com/item/1005007989207832.html) — DC5V, black PCB, 144 LEDs/m, IP30; four sections of 10 |
 | Arduino Nano | 1 | [Board listing](https://www.aliexpress.com/item/1005007842646963.html) — exact purchased variant and USB interface still to be confirmed |
-| Custom PCBs | 2 | One [MainV2Gerbers.zip](MainV2Gerbers.zip) and one [SliderV2Gerbers.zip](SliderV2Gerbers.zip) |
+| Custom PCBs | 2 | One [V1.1 button board](MixerHub-V1.1-Button-Gerbers.zip) and one [V1.1 slider board](MixerHub-V1.1-Slider-Gerbers.zip) |
 | 3D-printed enclosure and controls | 1 set | [MakerWorld files](https://makerworld.com/en/models/3527114-mixer-hub-4-channel-desktop-volume-controller#profileId-4032400); complete printed-parts inventory still to be confirmed |
 | USB data cable | 1 | Match your Nano's connector and check enclosure clearance; a specific cable has not been confirmed |
 
@@ -20,7 +20,7 @@ Confirm slider dimensions, travel and pin spacing against the design before subs
 
 ## PCBs and assembly
 
-Both boards are two-layer, 1.6 mm designs. See **[PCB ordering and bridge connections](gerbers/README.md)** before ordering. Each mixer needs one of each board.
+Both boards are two-layer, 1.6 mm designs. Use the V1.1 pair for new builds. Connect the boards through the 7-pin, 2.54 mm header footprints or solder short, flexible wires through the plated holes. See the **[PCB ordering and connection guide](gerbers/README.md)** for the pinout and V1 archive. **Avoid V1 for new builds.** Its edge-pad solder bridges can lift and break when the boards flex.
 
 There are no screws or heat-set inserts. Complete assembly instructions, the bridge-connection photo/diagram and the method of securing the enclosure/components are still being documented. Do not assume the enclosure is snap-fit or glued.
 

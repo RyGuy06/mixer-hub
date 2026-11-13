@@ -1,22 +1,39 @@
 # PCB manufacturing files
 
-One Mixer Hub requires both boards:
+## V1.1 (recommended for new builds)
 
-- [MainV2Gerbers.zip](../MainV2Gerbers.zip) — main PCB manufacturing files.
-- [SliderV2Gerbers.zip](../SliderV2Gerbers.zip) — slider PCB manufacturing files.
+| Board | Gerber and drill ZIP |
+| --- | --- |
+| Button board (main board with Arduino Nano) | [MixerHub-V1.1-Button-Gerbers.zip](../MixerHub-V1.1-Button-Gerbers.zip) |
+| Slider board (sliders and RGB LEDs) | [MixerHub-V1.1-Slider-Gerbers.zip](../MixerHub-V1.1-Slider-Gerbers.zip) |
 
-The ZIPs are stored in the hardware folder, one level above this page. Open each file link and use GitHub's download button to save the ZIP.
+Order one of each board from the same revision. Open each file link and use GitHub's download button, then upload each ZIP separately to your PCB manufacturer. Both boards use two copper layers and 1.6 mm board thickness. The nominal outlines are 99.5 × 60 mm for the button board and 99.5 × 90.5 mm for the slider board.
 
-I used two smaller boards because they were cheaper to manufacture than one large board. During assembly, you'll need to solder bridges between the matching connection pads on the two boards. A photo or diagram showing these connections will be added with the assembly instructions.
+### Connecting the V1.1 boards
 
-## Ordering
+V1.1 replaces the edge-pad solder bridges with a row of seven plated through-holes on each board. The footprints use 2.54 mm pitch and 1.0 mm drill holes. Fit matching headers and a cable, or solder seven short, flexible wires directly through the holes. Support each board in the enclosure and leave enough slack that the wires and solder joints carry no mechanical load from the boards.
 
-Upload each ZIP separately to your PCB manufacturer. Each mixer needs one of each board.
+| Pin | Signal |
+| --- | --- |
+| 1 | 5V |
+| 2 | DIN (LED data) |
+| 3 | S1 |
+| 4 | S2 |
+| 5 | S3 |
+| 6 | S4 |
+| 7 | GND |
 
-PCB specifications: two layers, 1.6 mm thickness.
+Match each signal on the button board to the same signal on the slider board. Check the orientation at both ends before soldering.
 
-**PCBWay may ask whether the bridge pads are intentionally hanging off the board edges. Yes—this is intentional.** Confirm that these pads should remain as designed because they form the connections between the two boards.
+## V1 archive (strongly discouraged for new builds)
 
-“V2” identifies the PCB design revision; it is separate from the Mixer Hub product and software version.
+**Use V1.1 for new builds.** V1 connects the boards by soldering directly across copper pads at the board edges. The pads can lift easily when the boards move or flex, breaking the connection. The V1 files are kept for reference and existing builds.
+
+| Board | Gerber and drill ZIP |
+| --- | --- |
+| Button board (main board with Arduino Nano) | [MixerHub-V1-Button-Gerbers.zip](../MixerHub-V1-Button-Gerbers.zip) |
+| Slider board (sliders and RGB LEDs) | [MixerHub-V1-Slider-Gerbers.zip](../MixerHub-V1-Slider-Gerbers.zip) |
+
+These archives were previously named `MainV2Gerbers.zip` and `SliderV2Gerbers.zip`. If a manufacturer asks about the overhanging bridge pads on **V1**, those pads are intentional.
 
 [Back to Mixer Hub](../../README.md)
